@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\KaryawanController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -13,3 +14,11 @@ route::get('/karyawan/{id_karyawan}', [KaryawanController::class, 'show'])->name
 route::post('/karyawan/add', [KaryawanController::class, 'store'])->name('karyawan.add');
 Route::put('/karyawan/update/{id_karyawan}', [KaryawanController::class, 'update']);
 Route::delete('/karyawan/delete/{id_karyawan}', [KaryawanController::class, 'destroy']);
+
+
+
+
+route::get('/absen', [AbsensiController::class, 'index'])->name('absen.index');
+route::get('/absen/{id_absen}', [AbsensiController::class, 'show'])->name('absen.show');
+route::get('/absen/detail/{id_karyawan}', [AbsensiController::class, 'detail'])->name('absen.detail');
+route::post('/absen/add', [AbsensiController::class, 'store'])->name('absen.add');
