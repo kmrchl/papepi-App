@@ -6,13 +6,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class karyawan extends Authenticatable
+class karyawan extends Model
 {
     use HasFactory;
 
     protected $table = 'karyawan';
-    protected $primarykey = 'id_karyawan';
-    protected $fillable = ['nama', 'notelp', 'email', 'alamat', 'posisi', 'jenis_kelamin', 'fingerprint', 'gambar_profil'];
+    protected $primaryKey = 'id_karyawan';
+    protected $fillable = ['nama', 'notelp', 'email', 'alamat', 'posisi', 'jenis_kelamin', 'fingerprint', 'gambar_profil',];
 
 
     public function absensi()
