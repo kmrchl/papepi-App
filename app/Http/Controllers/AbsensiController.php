@@ -33,43 +33,48 @@ class AbsensiController extends Controller
         ]);
     }
 
+    public function detail($id_karyawan)
+    {
+        $absen = absensi::where('id_karyawan', $id_karyawan)->get();
+
+        if ($absen->isEmpty()) {
+            return response()->json([
+                'message' => 'data Absen tidak ditemukan untuk karyawan dengan ID tersebut',
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Data absensi berhasil ditemukan',
+            'data' => $absen
+        ], 200);
+    }
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        // Validasi data yang diterima
-        $validated = $request->validate([
-            'id_karyawan' => 'required|string|max:255',
-            'notelp' => 'required|string|max:20',
-            'email' => 'required|email|max:255|unique:karyawan',
-            'alamat' => 'nullable|string|max:255',
-            'posisi' => 'nullable|string|max:255',
-            'jenis_kelamin' => 'required|string',
-            'fingerprint' => 'nullable|string|max:255',
-            'gambar_profil' => 'nullable|string|max:255',
+        // Validasi input
+        $validatedData = $request->validate([
+            'id_karyawan' => 'required|exists:karyawan,id_karyawan',
+            'jam_masuk' => 'required|date',
+            'jam_keluar' => 'nullable|date|after_or_equal:jam_masuk', // harus setelah jam masuk
+            'jam_kerja' => 'required|integer|min:0', // Waktu kerja dalam jam
         ]);
 
-        // Menyimpan data karyawan ke tabel 'karyawan'
-        $karyawan = new absensi();
-        $karyawan->nama = $validated['nama'];
-        $karyawan->notelp = $validated['notelp'];
-        $karyawan->email = $validated['email'];
-        $karyawan->alamat = $validated['alamat'];
-        $karyawan->posisi = $validated['posisi'];
-        $karyawan->jenis_kelamin = $validated['jenis_kelamin'];
-        $karyawan->fingerprint = $validated['fingerprint'];
-        $karyawan->gambar_profil = $validated['gambar_profil'];
+        // Simpan data absensi
+        $absensi = absensi::create([
+            'id_karyawan' => $validatedData['id_karyawan'],
+            'jam_masuk' => $validatedData['jam_masuk'],
+            'jam_keluar' => $validatedData['jam_keluar'] ?? null,
+            'jam_kerja' => $validatedData['jam_kerja'],
+        ]);
 
-        // Simpan data ke database
-        $karyawan->save();
-
-        // Response JSON setelah data berhasil disimpan
         return response()->json([
-            'message' => 'Data karyawan berhasil ditambahkan',
-            'data' => $karyawan
-        ], 201);
+            'message' => 'Data absensi berhasil ditambahkan',
+            'data' => $absensi
+        ], 201); // 201 adalah status code untuk "Created"
     }
 
 

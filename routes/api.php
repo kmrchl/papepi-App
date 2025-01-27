@@ -19,3 +19,6 @@ Route::delete('/karyawan/delete/{id_karyawan}', [KaryawanController::class, 'des
 
 
 route::get('/absen', [AbsensiController::class, 'index'])->name('absen.index');
+route::get('/absen/{id_absen}', [AbsensiController::class, 'show'])->name('absen.show');
+route::get('/absen/detail/{id_karyawan}', [AbsensiController::class, 'detail'])->name('absen.detail');
+route::post('/absen/add', [AbsensiController::class, 'store'])->name('absen.add');

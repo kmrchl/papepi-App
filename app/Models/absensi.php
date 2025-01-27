@@ -11,7 +11,7 @@ class absensi extends Authenticatable
     use HasFactory;
 
     protected $table = 'absensi';
-    protected $primarykey = 'id_absen';
+    protected $primaryKey = 'id_absen';
     protected $fillable = ['id_karyawan', 'jam_masuk', 'jam_kerja', 'jam_keluar'];
 
     public function karyawan()
