@@ -12,8 +12,8 @@ class gaji extends Authenticatable
     use HasFactory;
 
     protected $table = 'gaji';
-    protected $primarykey = 'id_gaji';
-    protected $fillable = ['gaji', 'tunjangan'];
+    protected $primaryKey = 'id_gaji';
+    protected $fillable = ['id_karyawan', 'gaji', 'tunjangan'];
 
     public function karyawan()
     {
