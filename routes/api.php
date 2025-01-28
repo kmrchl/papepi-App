@@ -1,21 +1,37 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GajiController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KaryawanController;
+use App\Models\Admin;
 
 // Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 //     return $request->user();
 // });
 
-route::get('/karyawan', [KaryawanController::class, 'index']);
-route::get('/karyawan/{id_karyawan}', [KaryawanController::class, 'show']);
-route::post('/karyawan/add', [KaryawanController::class, 'store']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
+Route::get('/admin', [AdminController::class, 'index']);
+Route::post('/admin/add', [AdminController::class, 'store']);
+// Route::post('/users/add', function () {
+//     return response()->json([
+//         'message' => 'Route ada dan bisa dijalankan!'
+//     ]);
+// });
+
+
+Route::get('/karyawan', [KaryawanController::class, 'index']);
+Route::get('/karyawan/{id_karyawan}', [KaryawanController::class, 'show']);
+Route::post('/karyawan/add', [KaryawanController::class, 'store']);
 Route::put('/karyawan/update/{id_karyawan}', [KaryawanController::class, 'update']);
 Route::delete('/karyawan/delete/{id_karyawan}', [KaryawanController::class, 'destroy']);
-
 
 
 

@@ -1,13 +1,10 @@
 @extends('layout.admin')
-@section('title')
-
-
-
+@section('title', 'Admin : Gaji')
 
 @section('content')
 
-    <h1>Daftar Produk</h1>
-    <table border="1" cellpadding="10">
+    <h1>Daftar Absen</h1>
+    <table border="0px" cellpadding="10">
         <thead>
             <tr>
                 <th>ID karyawan</th>
