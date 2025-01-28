@@ -17,11 +17,11 @@ class karyawan extends Model
 
     public function absensi()
     {
-        return $this->hasMany(absensi::class, 'id_karyawan');
+        return $this->hasMany(absensi::class, 'id_karyawan', 'id_karyawan');
     }
 
     public function gaji()
     {
-        return $this->hasMany(gaji::class, 'id_karyawan');
+        return $this->hasOne(gaji::class, 'id_karyawan', 'id_karyawan');
     }
 }
