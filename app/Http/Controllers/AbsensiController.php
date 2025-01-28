@@ -53,28 +53,27 @@ class AbsensiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
-        // Validasi input
-        $validatedData = $request->validate([
-            'id_karyawan' => 'required|exists:karyawan,id_karyawan',
+        $validated = $request->validate([
+            'id_karyawan' => 'required|integer',
             'jam_masuk' => 'required|date',
-            'jam_keluar' => 'nullable|date|after_or_equal:jam_masuk', // harus setelah jam masuk
-            'jam_kerja' => 'required|integer|min:0', // Waktu kerja dalam jam
+            'jam_keluar' => 'required|date|after_or_equal:jam_masuk',
         ]);
 
-        // Simpan data absensi
-        $absensi = absensi::create([
-            'id_karyawan' => $validatedData['id_karyawan'],
-            'jam_masuk' => $validatedData['jam_masuk'],
-            'jam_keluar' => $validatedData['jam_keluar'] ?? null,
-            'jam_kerja' => $validatedData['jam_kerja'],
+        $jamMasuk = strtotime($validated['jam_masuk']);
+        $jamKeluar = strtotime($validated['jam_keluar']);
+        $totalJam = ($jamKeluar - $jamMasuk) / 3600; // Hasil dalam jam
+
+        $absen = Absensi::create([
+            'id_karyawan' => $validated['id_karyawan'],
+            'jam_masuk' => $validated['jam_masuk'],
+            'jam_keluar' => $validated['jam_keluar'],
+            'jam_kerja' => round($totalJam, 2), // Simpan hasilnya
         ]);
 
-        return response()->json([
-            'message' => 'Data absensi berhasil ditambahkan',
-            'data' => $absensi
-        ], 201); // 201 adalah status code untuk "Created"
+        return response()->json(['message' => 'Data berhasil disimpan', 'data' => $absen]);
     }
 
 
